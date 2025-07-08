@@ -205,3 +205,24 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+my_django_environment/
+
+# Django stuff
+*.sqlite3
+*.log
+
+# VS Code
+.vscode/
+
+# OS files
+Thumbs.db
+.DS_Store
