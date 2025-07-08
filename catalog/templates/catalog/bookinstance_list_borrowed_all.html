@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>All Borrowed Books</h1>
+
+  <ul>
+    {% for bookinst in object_list %}
+      <li>
+        <a href="{{ bookinst.book.get_absolute_url }}">{{ bookinst.book.title }}</a>
+        ({{ bookinst.due_back|date:"M d, Y" }}) -
+        {{ bookinst.borrower.username }}
+
+        {% if perms.catalog.can_mark_returned %}
+          - <a href="{% url 'renew-book-librarian' bookinst.id %}">Renew</a>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>No borrowed books found.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

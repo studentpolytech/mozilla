@@ -1,0 +1,46 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="container">
+    <h1 class="mt-4">Author: {{ author.last_name }}, {{ author.first_name }}</h1>
+    
+    <div class="card mb-4">
+      <div class="card-body">
+        <p class="card-text">
+          <strong>Birth:</strong> {{ author.date_of_birth|default:"Unknown" }}
+          {% if author.date_of_death %}
+            <br><strong>Death:</strong> {{ author.date_of_death }}
+          {% endif %}
+        </p>
+        
+        {% if perms.catalog.can_manage_authors %}
+          <div class="btn-group">
+            <a href="{% url 'author_update' author.pk %}" class="btn btn-primary btn-sm">Edit</a>
+            <a href="{% url 'author_delete' author.pk %}" class="btn btn-danger btn-sm">Delete</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h4 class="mb-0">Books</h4>
+      </div>
+      <div class="card-body">
+        {% if author.book_set.all %}
+          <div class="list-group">
+            {% for book in author.book_set.all %}
+              <div class="list-group-item">
+                <h5><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h5>
+                <p class="mb-1 text-muted">{{ book.bookinstance_set.count }} copy{{ book.bookinstance_set.count|pluralize }}</p>
+                <p class="mb-1">{{ book.summary|truncatewords:30 }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-muted">No books by this author in the library.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

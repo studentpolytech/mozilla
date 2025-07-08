@@ -1,0 +1,37 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1>Author List</h1>
+      {% if perms.catalog.can_manage_authors %}
+        <a href="{% url 'author_create' %}" class="btn btn-success">Add New Author</a>
+      {% endif %}
+    </div>
+
+    {% if author_list %}
+      <div class="list-group">
+        {% for author in author_list %}
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <a href="{{ author.get_absolute_url }}" class="font-weight-bold">
+                {{ author.last_name }}, {{ author.first_name }}
+              </a>
+              <span class="text-muted ml-2">
+                ({{ author.date_of_birth|default:"Unknown" }} - {% if author.date_of_death %}{{ author.date_of_death }}{% endif %})
+              </span>
+            </div>
+            {% if perms.catalog.can_manage_authors %}
+              <div>
+                <a href="{% url 'author_update' author.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                <a href="{% url 'author_delete' author.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-info">There are no authors in the library.</div>
+    {% endif %}
+  </div>
+{% endblock %}

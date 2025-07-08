@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Delete Author</h1>
+  <p>Are you sure you want to delete the author: <strong>{{ author }}</strong>?</p>
+  <p><strong>Warning:</strong> All books by this author will also be deleted!</p>
+  
+  <form action="" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Yes, delete" class="btn btn-danger">
+    <a href="{% url 'author-detail' author.pk %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}
